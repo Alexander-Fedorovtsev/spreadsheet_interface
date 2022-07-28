@@ -102,6 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+spreadsheet_interface/templates/python-project-357307-45177e0edc6f.json
 .env
 .venv
 env/

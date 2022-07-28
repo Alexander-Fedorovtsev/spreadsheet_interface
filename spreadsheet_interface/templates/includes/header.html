@@ -1,0 +1,45 @@
+{% load static %}
+<nav class="navbar navbar-light" style="background-color: lightskyblue;">
+  <div class="container">
+    <a class="navbar-brand" href="{}">
+      <img src="{% static 'img/httpkanalservisru.png' %}"
+           width="50"
+           height="50"
+           class="d-inline-block align-top"
+           alt=""/>
+      <span style="color: red;">My</span>petpro
+    </a>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="{}">Author</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{}">Technology</a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{}">Новая запись</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="/auth/password_change">Изменить пароль</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="/auth/logout">Logout</a>
+        </li>
+        <li>
+          Пользователь: {{ user.username }}
+          <li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link link-light" href="">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-light" href="">Регистрация</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>

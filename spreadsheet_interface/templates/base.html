@@ -1,0 +1,79 @@
+{% load static %}
+{% load googlecharts %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" sizes="63x63" href="{% static 'img/fav/fav.ico' %}" type="image" />
+    
+    <meta name="msapplication-TileColor" content="#000" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      {% include 'includes/header.html' %}
+    </header>
+    <main class="container py-5">
+      <h2>Суммарный объем заказов, $:</h2>
+      <div class="fs-2 w-50 mb-3 rounded container text-center bg-info">
+        {{ sum_cost }}
+      </div>
+    <div>
+      <h2>График заказов:</h2>
+      <div id="out"></div>
+      {% googlecharts %}
+        {% data values "out_data" %}
+          {% col "string" "Дата" %}"{{ val|date:"j M y" }}"{% endcol %}
+          {% col "number" "$" %}{{ val }}{% endcol %}
+        {% enddata %}
+
+      {% options "out_options" %}
+          kind: "LineChart",
+          options: {
+            width: 1000,
+            height: 300
+          }
+        {% endoptions %}
+        {% graph "out" "out_data" "out_options" %}
+      {% endgooglecharts %}
+    </div>
+
+      <h2>Таблица заказов:</h2>
+		<div>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Номер</th>
+            <th scope="col">Номер заказа</th>
+            <th scope="col">Стоимость, $</th>
+            <th scope="col">Срок поствки</th>
+          </tr>
+        </thead>
+			
+      {% for order in page_obj %}
+			  <tr>
+          <td>{{ order.number}}</td>
+          <td>{{ order.order_number }}</td>
+          <td>{{ order.cost_usd }}</td>
+          <td>{{ order.delivery_date|date:"j M Y" }}</td>
+			  </tr>
+			{% if not forloop.last %}{% endif %}
+		  {% endfor %}
+
+      </table>
+		{% include 'includes/paginator.html' %}
+		</div>
+
+
+
+
+    </main>
+    <footer class="border-top text-center py-3">
+      {% include 'includes/footer.html' %}
+    </footer>
+  </body>
+</html>
